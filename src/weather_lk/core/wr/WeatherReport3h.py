@@ -10,59 +10,18 @@ from utils import JSONFile, Log, Time, TimeFormat
 log = Log("WeatherReport3h")
 
 
-@dataclass
-class WeatherReport3h:
-    station_id: int
-    station_name: str
-    time_ut: int
-    rain_mm: float
-    temp_c: float
-    rh: float
-
-    @property
-    def dir_data(self) -> str:
-        time_str = TimeFormat.TIME.format(Time(self.time_ut))
-        year = time_str[:4]
-        year_and_month = time_str[:7]
-        year_and_month_and_day = time_str[:10]
-        return os.path.join(
-            "data",
-            "weather_3h",
-            year,
-            year_and_month,
-            year_and_month_and_day,
-            time_str,
-        )
-
-    @property
-    def json_file_path(self) -> str:
-        return os.path.join(
-            self.dir_data,
-            f"{self.station_id:06d}.json",
-        )
-
-    @property
-    def json_file(self) -> JSONFile:
-        return JSONFile(self.json_file_path)
-
-    def write(self) -> bool:
-        if self.json_file.exists:
-            return False
-        os.makedirs(self.dir_data, exist_ok=True)
-        os.makedirs(os.path.dirname(self.json_file_path), exist_ok=True)
-        self.json_file.write(asdict(self))
-        return True
+class WeatherReport3hRemoteMixin:
+    URL_REMOTE = "https://www.meteo.gov.lk"
 
     @classmethod
     def list_latest_from_remote(cls) -> List["WeatherReport3h"]:
-        URL = "https://www.meteo.gov.lk"
 
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
         driver = webdriver.Chrome(options=options)
 
         try:
-            driver.get(URL)
+            driver.get(cls.URL_REMOTE)
             time.sleep(2)
 
             three_hourly_button = driver.find_element(
@@ -111,3 +70,56 @@ class WeatherReport3h:
 
         finally:
             driver.quit()
+
+
+class WeatherReport3hReadMixin:
+
+    DIR_DATA = "data"
+    DIR_DATA_WEATHER_REPORT = os.path.join(DIR_DATA, "wr")
+
+    @property
+    def dir_data(self) -> str:
+        time_str = TimeFormat.TIME.format(Time(self.time_ut))
+        year = time_str[:4]
+        year_and_month = time_str[:7]
+        year_and_month_and_day = time_str[:10]
+        return os.path.join(
+            cls.DIR_DATA_WEATHER_REPORT
+            year,
+            year_and_month,
+            year_and_month_and_day,
+            time_str,
+        )
+
+    @property
+    def json_file_path(self) -> str:
+        return os.path.join(
+            self.dir_data,
+            f"{self.station_id:06d}.json",
+        )
+
+    @property
+    def json_file(self) -> JSONFile:
+        return JSONFile(self.json_file_path)
+    
+    @classmethod
+
+
+class WeatherReport3hWriteMixin:
+    def write(self) -> bool:
+        if self.json_file.exists:
+            return False
+        os.makedirs(self.dir_data, exist_ok=True)
+        os.makedirs(os.path.dirname(self.json_file_path), exist_ok=True)
+        self.json_file.write(asdict(self))
+        return True
+
+
+@dataclass
+class WeatherReport3h(WeatherReport3hRemoteMixin):
+    station_id: int
+    station_name: str
+    time_ut: int
+    rain_mm: float
+    temp_c: float
+    rh: float
