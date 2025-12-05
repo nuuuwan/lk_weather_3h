@@ -50,7 +50,7 @@ class WeatherReport3hRemoteMixin:
                     )
                     report = cls(
                         station_id=int(col_text_list[0].strip()),
-                        station_name=col_text_list[1].strip(),
+                        station_name=col_text_list[1].strip().title(),
                         time_ut=time_ut,
                         rain_mm=rain_mm,
                         temp_c=float(col_text_list[4].strip() or 0),

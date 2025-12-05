@@ -1,6 +1,8 @@
 import os
 
-from utils import JSONFile, Time, TimeFormat
+from utils import JSONFile, Log, Time, TimeFormat
+
+log = Log("WeatherReport3h")
 
 
 class WeatherReport3hReadMixin:
