@@ -45,7 +45,7 @@ class WeatherReport3hRemoteMixin:
                     rain_mm_str = col_text_list[3].strip()
                     rain_mm = (
                         float(rain_mm_str)
-                        if rain_mm_str not in ["", "TR"]
+                        if rain_mm_str.lower() not in ["", "tr"]
                         else 0.0
                     )
                     report = cls(
