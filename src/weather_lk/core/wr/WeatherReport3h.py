@@ -79,16 +79,16 @@ class WeatherReport3hReadMixin:
 
     @property
     def dir_data(self) -> str:
-        time_str = TimeFormat.TIME.format(Time(self.time_ut))
-        year = time_str[:4]
-        year_and_month = time_str[:7]
-        year_and_month_and_day = time_str[:10]
+        time_id = TimeFormat("%Y-%m-%d-%H%M").format(Time(self.time_ut))
+        year = time_id[:4]
+        year_and_month = time_id[:7]
+        year_and_month_and_day = time_id[:10]
         return os.path.join(
-            cls.DIR_DATA_WEATHER_REPORT
+            self.DIR_DATA_WEATHER_REPORT,
             year,
             year_and_month,
             year_and_month_and_day,
-            time_str,
+            time_id,
         )
 
     @property
@@ -101,8 +101,6 @@ class WeatherReport3hReadMixin:
     @property
     def json_file(self) -> JSONFile:
         return JSONFile(self.json_file_path)
-    
-    @classmethod
 
 
 class WeatherReport3hWriteMixin:
@@ -116,7 +114,11 @@ class WeatherReport3hWriteMixin:
 
 
 @dataclass
-class WeatherReport3h(WeatherReport3hRemoteMixin):
+class WeatherReport3h(
+    WeatherReport3hRemoteMixin,
+    WeatherReport3hReadMixin,
+    WeatherReport3hWriteMixin,
+):
     station_id: int
     station_name: str
     time_ut: int
