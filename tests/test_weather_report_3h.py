@@ -1,6 +1,6 @@
 import unittest
 
-from weather_lk import WeatherReport3h
+from lk_weather import WeatherReport3h
 
 
 class TestCase(unittest.TestCase):

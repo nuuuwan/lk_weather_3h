@@ -2,13 +2,13 @@ from dataclasses import dataclass
 
 from utils import Log
 
-from weather_lk.core.wr.WeatherReport3hAggregateMixin import \
+from lk_weather.core.wr.WeatherReport3hAggregateMixin import \
     WeatherReport3hAggregateMixin
-from weather_lk.core.wr.WeatherReport3hReadMixin import \
+from lk_weather.core.wr.WeatherReport3hReadMixin import \
     WeatherReport3hReadMixin
-from weather_lk.core.wr.WeatherReport3hRemoteMixin import \
+from lk_weather.core.wr.WeatherReport3hRemoteMixin import \
     WeatherReport3hRemoteMixin
-from weather_lk.core.wr.WeatherReport3hWriteMixin import \
+from lk_weather.core.wr.WeatherReport3hWriteMixin import \
     WeatherReport3hWriteMixin
 
 log = Log("WeatherReport3h")
