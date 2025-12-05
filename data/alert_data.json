@@ -1,0 +1,10 @@
+{
+  "url_source": "https://www.meteo.gov.lk",
+  "url_structured": "https://raw.githubusercontent.com/nuuuwan/lk_weather_3h/refs/heads/main/data/alert_data.json",
+  "event": "weather_report_3h",
+  "event_measures": [
+    "rain_mm",
+    "temp_c",
+    "rh"
+  ]
+}
