@@ -13,21 +13,23 @@ class ReadMe:
         max_time_ut = WeatherReport3h.get_max_time_ut()
         time_str = TimeFormat.TIME.format(Time(max_time_ut))
         wr3_list = WeatherReport3h.list_latest_batch()
+
         lines.append("## Latest 3-hourly Weather Reports")
         lines.append("")
         lines.append(f"*{time_str}*")
         lines.append("")
         lines.append(
-            "| Station ID | Station Name | Time (UT) | Rain (mm) | Temp (°C) | RH (%) |"  # noqa: E501
+            "| Station ID | Station Name | Time (UT) | Rain (mm) | Temp (°C) | RH (%) | Dew Point (°C) |"  # noqa: E501
         )
         lines.append(
-            "|-----------:|--------------|-----------|----------:|----------:|-------:|"  # noqa: E501
+            "|-----------:|--------------|-----------|----------:|----------:|-------:|---------------:|"  # noqa: E501
         )
         for wr3 in wr3_list:
             time_str = TimeFormat.TIME.format(Time(wr3.time_ut))
+            rain_str = f"{wr3.rain_mm:.1f}" if wr3.rain_mm > 0 else ""
             lines.append(
                 f"| {wr3.station_id} | {wr3.station_name} | "
-                f"{time_str} | {wr3.rain_mm:.1f} | {wr3.temp_c:.1f} | {wr3.rh:.0%} |"  # noqa: E501
+                f"{time_str} | {rain_str} | {wr3.temp_c:.1f} | {wr3.rh:.0%} | {wr3.dew_point_c:.1f} |"  # noqa: E501
             )
         lines.append("")
         return lines

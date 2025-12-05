@@ -30,11 +30,4 @@ class WeatherReport3h(
 
     @property
     def dew_point_c(self) -> float:
-        """Calculate dew point temperature in Celsius using the
-        Magnus-Tetens approximation.
-        """
-        a = 17.27
-        b = 237.7  # degrees Celsius
-        alpha = ((a * self.temp_c) / (b + self.temp_c)) + (self.rh / 100)
-        dew_point = (b * alpha) / (a - alpha)
-        return dew_point
+        return self.temp_c - (1 - self.rh) * 100 / 5.0

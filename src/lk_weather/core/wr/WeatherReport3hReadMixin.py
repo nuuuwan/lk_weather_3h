@@ -77,5 +77,5 @@ class WeatherReport3hReadMixin:
         time_ut_set = {wr.time_ut for wr in wr_list}
         max_time_ut = max(time_ut_set)
         latest_wr_list = [wr for wr in wr_list if wr.time_ut == max_time_ut]
-        latest_wr_list.sort(key=lambda wr: (-wr.rain_mm, -wr.rh, wr.temp_c))
+        latest_wr_list.sort(key=lambda wr: wr.dew_point_c, reverse=True)
         return latest_wr_list
