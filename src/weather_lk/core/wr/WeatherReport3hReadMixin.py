@@ -48,7 +48,8 @@ class WeatherReport3hReadMixin:
 
     @classmethod
     def from_json_file(cls, json_file: JSONFile):
-        return cls(**json_file.read())
+        d = json_file.read()
+        return cls(**d)
 
     @classmethod
     def list_all(cls) -> list:

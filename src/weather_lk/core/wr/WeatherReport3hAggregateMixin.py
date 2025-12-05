@@ -41,13 +41,15 @@ class WeatherReport3hAggregateMixin:
 
         if unknown_station_names:
             n_unknown = len(unknown_station_names)
-            log.warning(f"Found {n_unknown} unknown station names.")
+            log.warning(f"⚠️ Found {n_unknown} unknown station names.")
             unknown_file_path = os.path.join(
                 "data", "unknown_weather_stations.json"
             )
             unknown_file = JSONFile(unknown_file_path)
             unknown_file.write(unknown_station_names)
             log.info(f"Wrote {unknown_file}")
+        else:
+            log.info("✅ No unknown station names found.")
 
     @classmethod
     def get_place_idx(cls) -> dict[str, dict]:
