@@ -53,7 +53,9 @@ class WeatherReport3hReadMixin:
 
     @classmethod
     def list_all(cls) -> list:
-        return [
+        wr_list = [
             cls.from_json_file(json_file)
             for json_file in cls.__get_json_files__()
         ]
+        wr_list.sort(key=lambda wr: (-wr.time_ut, wr.station_id))
+        return wr_list

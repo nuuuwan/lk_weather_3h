@@ -1,6 +1,6 @@
 import os
 
-from utils import JSONFile, Log
+from utils import JSONFile, Log, Time, TimeFormat
 
 log = Log("WeatherReport3h")
 
@@ -16,6 +16,24 @@ class WeatherReport3hAggregateMixin:
             "event_measures": ["rain_mm", "temp_c", "rh"],
         }
 
+        event_data = {}
+        for wr in cls.list_all():
+            station_name = wr.station_name
+            time_ut = wr.time_ut
+            date_part = TimeFormat.DATE_ID.format(Time(time_ut))
+            time_only_part = TimeFormat("%H%M").format(Time(time_ut))
+
+            if station_name not in event_data:
+                event_data[station_name] = {}
+            if date_part not in event_data[station_name]:
+                event_data[station_name][date_part] = {}
+            event_data[station_name][date_part][time_only_part] = {
+                "rain_mm": wr.rain_mm,
+                "temp_c": wr.temp_c,
+                "rh": wr.rh,
+            }
+
+        alert_data["event_data"] = event_data
         alert_data_path_path = os.path.join("data", "alert_data.json")
         alert_data_file = JSONFile(alert_data_path_path)
         alert_data_file.write(alert_data)
