@@ -57,5 +57,25 @@ class WeatherReport3hReadMixin:
             cls.from_json_file(json_file)
             for json_file in cls.__get_json_files__()
         ]
-        wr_list.sort(key=lambda wr: (-wr.time_ut, wr.station_id))
+        wr_list.sort(
+            key=lambda wr: (
+                wr.dew_point_c,
+                -wr.rain_mm,
+            )
+        )
         return wr_list
+
+    @classmethod
+    def get_max_time_ut(cls) -> int:
+        wr_list = cls.list_all()
+        time_ut_set = {wr.time_ut for wr in wr_list}
+        return max(time_ut_set)
+
+    @classmethod
+    def list_latest_batch(cls) -> list:
+        wr_list = cls.list_all()
+        time_ut_set = {wr.time_ut for wr in wr_list}
+        max_time_ut = max(time_ut_set)
+        latest_wr_list = [wr for wr in wr_list if wr.time_ut == max_time_ut]
+        latest_wr_list.sort(key=lambda wr: (-wr.rain_mm, -wr.rh, wr.temp_c))
+        return latest_wr_list
