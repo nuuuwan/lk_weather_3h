@@ -21,7 +21,7 @@ class ReadMe:
             "| Station ID | Station Name | Time (UT) | Rain (mm) | Temp (°C) | RH (%) |"  # noqa: E501
         )
         lines.append(
-            "|------------|--------------|-----------|-----------|-----------|--------|"  # noqa: E501
+            "|-----------:|--------------|-----------|----------:|----------:|-------:|"  # noqa: E501
         )
         for wr3 in wr3_list:
             time_str = TimeFormat.TIME.format(Time(wr3.time_ut))
