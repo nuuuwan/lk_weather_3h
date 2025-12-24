@@ -50,7 +50,6 @@ class WeatherReport3hRemoteMixin:
                     )
                     temp_c_str = col_text_list[5].strip()
                     temp_c = float(temp_c_str)
-                    print(f"{temp_c}")
                     report = cls(
                         station_id=int(col_text_list[0].strip()),
                         station_name=col_text_list[1].strip().title(),
