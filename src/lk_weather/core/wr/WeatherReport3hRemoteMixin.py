@@ -42,19 +42,22 @@ class WeatherReport3hRemoteMixin:
                 if len(col_text_list) >= 6:
                     time_str = col_text_list[2].strip()
                     time_ut = TimeFormat("%Y-%m-%d %H%M").parse(time_str).ut
-                    rain_mm_str = col_text_list[3].strip()
+                    rain_mm_str = col_text_list[3].strip().replace("..", ".")
                     rain_mm = (
                         float(rain_mm_str)
                         if rain_mm_str.lower() not in ["", "tr"]
                         else 0.0
                     )
+                    temp_c_str = col_text_list[5].strip()
+                    temp_c = float(temp_c_str)
+                    print(f"{temp_c}")
                     report = cls(
                         station_id=int(col_text_list[0].strip()),
                         station_name=col_text_list[1].strip().title(),
                         time_ut=time_ut,
                         rain_mm=rain_mm,
-                        temp_c=float(col_text_list[4].strip() or 0),
-                        rh=float(col_text_list[5].strip() or 0) / 100.0,
+                        temp_c=temp_c,
+                        rh=float(col_text_list[6].strip() or 0) / 100.0,
                     )
 
                     report.write()
