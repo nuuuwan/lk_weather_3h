@@ -12,6 +12,7 @@ This repository scrapes, stores and aggregates this data.
 | Station ID | Station Name | Time (UT) | Rain (mm) | Temp (°C) | RH (%) |
 |-----------:|--------------|-----------|----------:|----------:|-------:|
 | 43413 | Mannar | 2026-01-16 02:30:00 |  | 25.2 | 82% |
+| 43418 | Trincomalee | 2026-01-16 02:30:00 |  | 25.0 | 76% |
 | 43421 | Anuradhapura | 2026-01-16 02:30:00 |  | 22.4 | 93% |
 | 43424 | Puttalam | 2026-01-16 02:30:00 |  | 21.8 | 97% |
 | 43436 | Batticaloa | 2026-01-16 02:30:00 |  | 25.8 | 78% |
