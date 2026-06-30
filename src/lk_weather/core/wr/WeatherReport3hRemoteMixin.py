@@ -22,6 +22,13 @@ class WeatherReport3hRemoteMixin:
             driver.get(cls.URL_REMOTE)
             time.sleep(2)
 
+
+            observation_data_button = driver.find_element(
+                By.XPATH, "//button[contains(text(), 'Observation Data')]"
+            )
+            observation_data_button.click()
+            time.sleep(1)
+
             three_hourly_button = driver.find_element(
                 By.XPATH, "//button[contains(text(), '3 Hourly Data')]"
             )
