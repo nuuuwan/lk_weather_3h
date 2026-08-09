@@ -39,7 +39,6 @@ class WeatherReport3hRemoteMixin:
             cls._load_remote_page(driver)
             time.sleep(2)
 
-
             observation_data_button = driver.find_element(
                 By.XPATH, "//button[contains(text(), 'Observation Data')]"
             )
