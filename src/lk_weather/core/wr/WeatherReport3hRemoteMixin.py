@@ -1,25 +1,42 @@
 import time
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from utils import TimeFormat
 
 
 class WeatherReport3hRemoteMixin:
     URL_REMOTE = "https://www.meteo.gov.lk"
+    PAGE_LOAD_ATTEMPTS = 3
+    PAGE_LOAD_TIMEOUT_SECONDS = 30
+    PAGE_LOAD_RETRY_DELAY_SECONDS = 2
+
+    @classmethod
+    def _load_remote_page(cls, driver) -> None:
+        for attempt in range(cls.PAGE_LOAD_ATTEMPTS):
+            try:
+                driver.get(cls.URL_REMOTE)
+                return
+            except TimeoutException:
+                if attempt == cls.PAGE_LOAD_ATTEMPTS - 1:
+                    raise
+                time.sleep(cls.PAGE_LOAD_RETRY_DELAY_SECONDS)
 
     @classmethod
     def list_latest_from_remote(cls) -> list:
 
         options = webdriver.ChromeOptions()
+        options.page_load_strategy = "eager"
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-gpu")
         driver = webdriver.Chrome(options=options)
+        driver.set_page_load_timeout(cls.PAGE_LOAD_TIMEOUT_SECONDS)
 
         try:
-            driver.get(cls.URL_REMOTE)
+            cls._load_remote_page(driver)
             time.sleep(2)
 
 
